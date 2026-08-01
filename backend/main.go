@@ -17,6 +17,7 @@ func start(server *gin.Engine) {
 
 func main() {
 	server := gin.Default()
+	server.Use(CORSMiddleware())
 	
 	start(server)
 }
