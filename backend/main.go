@@ -7,13 +7,15 @@ import (
 func start(server *gin.Engine) {
 
 	server.GET("/tasks", getTask)
-	server.POST("/tasks", createTarefas)
-
+	server.POST("/tasks", createTask)
+	server.PUT("/tasks/:id", updateTask)
+    // server.DELETE("/tasks/:id", deleteTask)
+	
 	server.Run(":8000")
 }
 
 func main() {
 	server := gin.Default()
-
+	
 	start(server)
 }

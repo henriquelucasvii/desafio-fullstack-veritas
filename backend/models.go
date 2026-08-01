@@ -22,7 +22,7 @@ type autoIncrement struct {
     sync.Mutex
     id int
 }
-
+// Função autoincrementavél
 func (a *autoIncrement) ID() (id int) {
     a.Lock()
     defer a.Unlock()
