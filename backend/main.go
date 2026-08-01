@@ -1,22 +1,19 @@
 package main
 
 import (
-	"log"
-
 	"github.com/gin-gonic/gin"
 )
 
-func main() {
+func start(server *gin.Engine) {
 
-	server := gin.Default()
-
-	server.GET("/tasks", func (ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
-			"message": "Ok",
-		})
-	})
+	server.GET("/tasks", getTask)
+	server.POST("/tasks", createTarefas)
 
 	server.Run(":8000")
+}
 
-	log.Println("Servidor rodando em http://localhost:8000/tasks")
+func main() {
+	server := gin.Default()
+
+	start(server)
 }
