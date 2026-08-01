@@ -61,3 +61,24 @@ func updateTask(c *gin.Context) {
 
 	c.JSON(http.StatusNotFound, gin.H{"error": "Tarefa não encontrada"})
 }
+
+// Deletar tarafas
+func deleteTask(c *gin.Context) {
+
+	idParam := c.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Inválido!. Insira um ID válido"})
+		return
+	}
+
+	for i, task := range tasks {
+		if task.ID == id {
+			tasks = append(tasks[:i], tasks[i+1:]...)
+			c.JSON(http.StatusOK, gin.H{"message": "Tarefa deletada"})
+			return
+		}
+	}
+
+	c.JSON(http.StatusNotFound, gin.H{"error": "Tarefa não encontrada"})
+}
