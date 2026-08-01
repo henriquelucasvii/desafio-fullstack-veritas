@@ -1,7 +1,10 @@
 package main
 
 import (
+	"encoding/json"
+	"log"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -10,6 +13,40 @@ import (
 var tasks = []Task{}
 var ai autoIncrement
 
+const file = "tasks.json"
+
+func loadFile() {
+	data, err := os.ReadFile(file)
+	if err != nil {
+		if os.IsNotExist(err) {
+			tasks = []Task{}
+			return
+		}
+		log.Fatal(err)
+	}
+
+	if len(data) == 0 {
+		tasks = []Task{}
+		return
+	}
+
+	if err := json.Unmarshal(data, &tasks); err != nil {
+		log.Fatal(err)
+	}
+
+}
+
+func writeFile() {
+	data, err := json.MarshalIndent(tasks, "", "  ")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if err := os.WriteFile(file, data, 0644); err != nil {
+		log.Fatal(err)
+	}
+}
+
 // Obter tarefas
 func getTask(c *gin.Context) {
 	c.JSON(http.StatusOK, tasks)
@@ -17,6 +54,7 @@ func getTask(c *gin.Context) {
 
 // Criar tarefas
 func createTask(c *gin.Context) {
+
 	var task Task
 	
 	if err := c.ShouldBindJSON(&task); err != nil {
@@ -28,6 +66,7 @@ func createTask(c *gin.Context) {
 
 	task.ID = ai.ID()	// Incrementa o ID
 	tasks = append(tasks, task)
+	writeFile()
 	
 	c.JSON(http.StatusCreated, task)
 }
@@ -54,6 +93,7 @@ func updateTask(c *gin.Context) {
 			tasks[i].Titulo = updateData.Titulo
 			tasks[i].Descricao = updateData.Descricao
 			tasks[i].Status = updateData.Status
+			writeFile()
 			c.JSON(http.StatusOK, tasks[i])
 			return
 		}
@@ -75,6 +115,7 @@ func deleteTask(c *gin.Context) {
 	for i, task := range tasks {
 		if task.ID == id {
 			tasks = append(tasks[:i], tasks[i+1:]...)
+			writeFile()
 			c.JSON(http.StatusOK, gin.H{"message": "Tarefa deletada"})
 			return
 		}

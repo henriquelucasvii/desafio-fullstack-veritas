@@ -5,11 +5,12 @@ import (
 )
 
 func start(server *gin.Engine) {
+	loadFile()
 
 	server.GET("/tasks", getTask)
 	server.POST("/tasks", createTask)
 	server.PUT("/tasks/:id", updateTask)
-    server.DELETE("/tasks/:id", deleteTask)
+	server.DELETE("/tasks/:id", deleteTask)
 
 	server.Run(":8000")
 }
