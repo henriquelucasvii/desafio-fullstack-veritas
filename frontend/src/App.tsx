@@ -1,7 +1,11 @@
+// import { getTask, createTask, updateTask, deleteTask } from "./api/api"
+
 function App() {
   return (
     <>
-      <h1>Desafio Full Stack Veritas</h1>
+      <main>
+        
+      </main>
     </>
   )
 }
