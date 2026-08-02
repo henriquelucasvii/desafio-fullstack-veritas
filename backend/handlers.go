@@ -34,6 +34,14 @@ func loadFile() {
 		log.Fatal(err)
 	}
 
+	var maxId int = 0
+	for _, task := range tasks {
+		if task.ID > maxId {
+			maxId = task.ID
+		}
+	}
+	ai.id = maxId + 1
+
 }
 
 func writeFile() {
@@ -48,7 +56,7 @@ func writeFile() {
 }
 
 // Obter tarefas
-func getTask(c *gin.Context) {
+func getTasks(c *gin.Context) {
 	c.JSON(http.StatusOK, tasks)
 }
 
@@ -129,7 +137,6 @@ func CORSMiddleware() gin.HandlerFunc {
     return func(c *gin.Context) {
 
         c.Header("Access-Control-Allow-Origin", "*")
-        c.Header("Access-Control-Allow-Credentials", "true")
         c.Header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
         c.Header("Access-Control-Allow-Methods", "POST,HEAD,PATCH, OPTIONS, GET, PUT")
 

@@ -13,7 +13,7 @@ const (
 // Campos principais da aplicação
 type Task struct {
 	ID          	int    	  `json:"id"`
-	Titulo       	string    `json:"titulo"`
+	Titulo       	string    `json:"titulo" blinding:"required"`
 	Descricao 		string    `json:"descricao"`
 	Status      	Status    `json:"status"`
 }

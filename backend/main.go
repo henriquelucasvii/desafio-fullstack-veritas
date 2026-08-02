@@ -7,7 +7,7 @@ import (
 func start(server *gin.Engine) {
 	loadFile()
 
-	server.GET("/tasks", getTask)
+	server.GET("/tasks", getTasks)
 	server.POST("/tasks", createTask)
 	server.PUT("/tasks/:id", updateTask)
 	server.DELETE("/tasks/:id", deleteTask)
