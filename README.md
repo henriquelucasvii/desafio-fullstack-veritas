@@ -48,8 +48,8 @@ O projeto está dividido em duas partes principais: `backend` e `frontend`. Voc�
    go mod tidy
 3. Inicie o servidor
     ```bash
-    go run .    # Ou go run main.go
-O servidor backend deverá iniciar em http://localhost:8000.
+    go run .
+O servidor backend deverá iniciar em http://localhost:8000/tasks.
 
 ---
 ### 2. Rodando o Frontend (React - Vite)
