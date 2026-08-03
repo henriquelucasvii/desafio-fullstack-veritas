@@ -1,6 +1,9 @@
 package main
 
-import "sync"
+import (
+	"sync"
+	"time"
+)
 
 type Status string
 
@@ -16,6 +19,8 @@ type Task struct {
 	Titulo       	string    `json:"titulo" blinding:"required"`
 	Descricao 		string    `json:"descricao"`
 	Status      	Status    `json:"status"`
+	Criado_em       time.Time `json:"criado_em"`
+	Atualizado_em   time.Time `json:"atualizado_em"`
 }
 
 type autoIncrement struct {

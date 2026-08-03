@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )	
@@ -72,6 +73,10 @@ func createTask(c *gin.Context) {
 		return
 	}
 
+	now := time.Now().UTC()
+	task.Criado_em = now
+	task.Atualizado_em = now
+
 	task.ID = ai.ID()	// Incrementa o ID
 	tasks = append(tasks, task)
 	writeFile()
@@ -101,6 +106,7 @@ func updateTask(c *gin.Context) {
 			tasks[i].Titulo = updateData.Titulo
 			tasks[i].Descricao = updateData.Descricao
 			tasks[i].Status = updateData.Status
+			tasks[i].Atualizado_em = time.Now().UTC()
 			writeFile()
 			c.JSON(http.StatusOK, tasks[i])
 			return
