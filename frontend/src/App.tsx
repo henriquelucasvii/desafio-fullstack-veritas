@@ -7,9 +7,9 @@ import TaskModal from "./components/TaskModal"
 import type { Task, TaskFormData, TaskStatus } from "./interfaces/TaskInterface"
 
 const COLUMNS: { status: TaskStatus; title: string; theme: ColumnTheme }[] = [
-  { status: "a fazer", title: "A Fazer", theme: { accent: "#5B9BD5" } },
-  { status: "em progresso", title: "Em Progresso", theme: { accent: "#D9A441" } },
-  { status: "concluido", title: "Concluídas", theme: { accent: "#4CAF7D" } },
+  { status: "a fazer", title: "A Fazer", theme: { accent: "#89CDDD" } },
+  { status: "em progresso", title: "Em Progresso", theme: { accent: "#DEB65F" } },
+  { status: "concluido", title: "Concluídas", theme: { accent: "#42C96A" } },
 ]
 
 type ToastKind = "success" | "error"
@@ -42,7 +42,7 @@ export default function App() {
       const data = await getTask()
       setTasks(Array.isArray(data) ? data : [])
     } catch (err) {
-      setLoadError("Não foi possível carregar as tarefas. Verifique se a API está rodando em localhost:8000.")
+      setLoadError("Não foi possível carregar as tarefas. Verifique se a API está rodando em localhost:8000/tasks.")
     } finally {
       setIsLoading(false)
     }
@@ -122,10 +122,10 @@ export default function App() {
 
   const summary = COLUMNS.map(
     (c) => `${tasks.filter((t) => t.status === c.status).length} ${c.title}`
-  ).join(" | ")
+  ).join(" · ")
 
   return (
-    <div className="min-h-screen bg-[#071F27] px-5 py-8 sm:px-10">
+    <div className="min-h-screen bg-[#0A1826] px-5 py-8 sm:px-10">
       <header className="mx-auto mb-8 flex max-w-6xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-extrabold tracking-tight text-white">Kanban</h1>
@@ -142,7 +142,7 @@ export default function App() {
       </header>
 
       {loadError && (
-        <div className="mx-auto mb-6 flex max-w-6xl items-start gap-2.5 rounded-lg border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+        <div className="mx-auto mb-6 flex max-w-6xl items-start gap-2.5 rounded-lg bg-red-500/10 px-4 py-3 text-sm text-red-100">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
           <div className="flex-1">{loadError}</div>
           <button

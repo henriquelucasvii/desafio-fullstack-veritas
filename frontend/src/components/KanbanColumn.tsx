@@ -50,21 +50,22 @@ export default function KanbanColumn({
         const id = Number(e.dataTransfer.getData("text/plain"))
         if (!Number.isNaN(id)) onDropTask(id, status)
       }}
-      className={`flex w-full shrink-0 flex-col rounded-xl border bg-white/3 p-4 transition-colors duration-150 sm:min-w-65 sm:flex-1 ${
-        isOver ? "border-[#7C93A3]/50 bg-white/5" : "border-white/10"
-      }`}
+      style={{
+        backgroundColor: theme.accent,
+        filter: isOver ? "brightness(1.08)" : undefined,
+      }}
+      className="flex w-full shrink-0 flex-col rounded-2xl p-4 transition-[filter] duration-150 sm:min-w-65 sm:flex-1"
     >
-      <div className="flex items-center justify-between border-b border-white/10 pb-3">
+      <div className="flex items-center justify-between border-b border-black/25 pb-3">
         <div className="flex items-center gap-2">
-          <span className="h-1.5 w-1.5 rounded-full" style={{ background: theme.accent }} />
-          <h2 className="text-[13px] font-semibold tracking-tight text-[#D7E0E6]">{title}</h2>
-          <span className="text-[11px] text-[#5B6B76]">{tasks.length}</span>
+          <h2 className="text-[15px] font-bold tracking-tight text-black/80">{title}</h2>
+          
         </div>
         <button
           type="button"
           onClick={() => onAdd(status)}
           aria-label={`Adicionar tarefa em ${title}`}
-          className="rounded-md p-1 text-[#7C93A3] transition-colors hover:bg-white/10 hover:text-[#D7E0E6]"
+          className="rounded-md p-1 text-black/70 transition-colors hover:bg-black/10"
         >
           <Plus className="h-4 w-4" />
         </button>
@@ -75,7 +76,7 @@ export default function KanbanColumn({
         style={{ maxHeight: "62vh" }}
       >
         {tasks.length === 0 ? (
-          <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed border-white/10 py-8 text-center text-[12px] text-[#5B6B76]">
+          <div className="flex flex-1 items-center justify-center xt-center text-[12px] text-black/40">
             Nenhuma tarefa aqui
           </div>
         ) : (
