@@ -69,6 +69,34 @@ O frontend deverá iniciar e abrir automaticamente no seu navegador em http://lo
 
 ---
 
+## Endpoints da API
+
+Para criar uma nova tarefa no Kanban, envie uma requisição `POST` para `http://localhost:8000/tasks`.
+
+### Corpo da Requisição
+```json
+{
+  "titulo": "Implementar autenticação",
+  "descricao": "Criar fluxo de login e geração de tokens JWT",
+  "status": "a fazer"
+}
+```
+Valores aceitos para status: "a fazer", "em progresso", "concluido"
+
+### Resposta Esperada (`201 created`)
+```json
+{
+  "id": 1,
+  "titulo": "Implementar autenticação",
+  "descricao": "Criar fluxo de login e geração de tokens JWT",
+  "status": "a fazer",
+  "criado_em": "2026-08-06T17:00:00Z",
+  "atualizado_em": "2026-08-06T17:00:00Z"
+}
+```
+
+---
+
 ## Tecnologias Utilizadas
 
 ### `Backend`
@@ -93,11 +121,37 @@ O frontend deverá iniciar e abrir automaticamente no seu navegador em http://lo
 Durante o desenvolvimento do projeto, as seguintes escolhas arquiteturais e de ferramentas foram tomadas para garantir simplicidade, performance e uma boa experiência de uso:
 
 ### Backend (Golang)
-* **Gin + `net/http` Nativo:** Optei por uma abordagem híbrida, utilizando o framework **Gin** para acelerar a criação de rotas e facilitar a aplicação de middlewares, mantendo a compatibilidade e extraindo o melhor das bibliotecas nativas de HTTP do Go.
-* **Armazenamento Simplificado:** Para facilitar a execução e avaliação do projeto — eliminando a necessidade de configurar bancos de dados externos ou Docker —, os dados são gerenciados através de armazenamento local/em memória, interagindo diretamente com o pacote nativo `os`.
-* **Gerenciamento de CORS:** Foi implementado um middleware específico para a liberação do **CORS** (Cross-Origin Resource Sharing), garantindo que as requisições do frontend (rodando no Vite) sejam aceitas pelo servidor Go sem bloqueios de segurança do navegador.
+
+- **Gin + `net/http` Nativo:** Optei por uma abordagem híbrida, utilizando o framework **Gin** para acelerar a criação de rotas e facilitar a aplicação de middlewares, mantendo a compatibilidade e extraindo o melhor das bibliotecas nativas de HTTP do Go.
+
+- **Armazenamento Simplificado:** Para facilitar a execução e avaliação do projeto — eliminando a necessidade de configurar bancos de dados externos ou Docker —, os dados são gerenciados através de armazenamento local/em memória, interagindo diretamente com o pacote nativo `os`.
+
+- **Gerenciamento de CORS:** Foi implementado um middleware específico para a liberação do **CORS** (Cross-Origin Resource Sharing), garantindo que as requisições do frontend (rodando no Vite) sejam aceitas pelo servidor Go sem bloqueios de segurança do navegador.
 
 ### Frontend (React)
-* **Ecossistema Vite + React:** A escolha do **Vite** como *bundler* se deu pela sua extrema velocidade de inicialização e *Hot Module Replacement* (HMR), aliado ao React puro para construir uma interface componentizada, leve e sem o excesso de frameworks complexos.
-* **Foco em UI/UX Design:** O desenvolvimento visual não foi improvisado. A interface foi previamente desenhada e prototipada no **Figma**, garantindo o alinhamento com padrões modernos de usabilidade e um design limpo.
-* **Interatividade com Drag-and-Drop:** Para entregar uma experiência Kanban autêntica e fluida (semelhante a ferramentas de mercado), implementei a movimentação de tarefas via *arrastar e soltar*, tornando a gestão do fluxo de trabalho muito mais intuitiva.
+
+- **Ecossistema Vite + React:** A escolha do **Vite** como *bundler* se deu pela sua extrema velocidade de inicialização e *Hot Module Replacement* (HMR), aliado ao React puro para construir uma interface componentizada, leve e sem o excesso de frameworks complexos.
+
+- **Foco em UI/UX Design:** O desenvolvimento visual não foi improvisado. A interface foi previamente desenhada e prototipada no **Figma**, garantindo o alinhamento com padrões modernos de usabilidade e um design limpo.
+
+- **Interatividade com Drag-and-Drop:** Para entregar uma experiência Kanban autêntica e fluida (semelhante a ferramentas de mercado), implementei a movimentação de tarefas via *arrastar e soltar*, tornando a gestão do fluxo de trabalho muito mais intuitiva.
+
+---
+
+## Limitações Técnicas e Possíveis Melhorias
+
+### Limitações:
+
+- Persistência via tasks.json: Riscos de concorrência (race conditions), baixa escalabilidade ao reescrever o arquivo a cada requisição e ausência de transações garantidas.
+- Sem Autenticação: Quadro único global compartilhado por qualquer usuário.
+
+### Possíveis Melhorias:
+
+- Banco de Dados: Substituir o arquivo JSON por SQLite/PostgreSQL (com GORM ou sqlc).
+
+- Concorrência: Adicionar sync.Mutex no Go enquanto mantiver a persistência em JSON.
+
+- Testes e Docker: Incluir testes unitários (Go testing e Vitest) e containerização com docker-compose.
+
+- Autenticação: Adicionar login e controle de usuários via JWT.
+---
